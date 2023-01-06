@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.fav.mapping.OrangeUserFavMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.fav.model.OrangeUserFav">
+    <id column="fav_id" jdbcType="BIGINT" property="favId" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="orange_user_id" jdbcType="BIGINT" property="orangeUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    fav_id, product_id, orange_user_id, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tuya_iot.orange_user_fav
+    where fav_id = #{favId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_user_fav
+    where fav_id = #{favId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyProperty="favId" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.fav.model.OrangeUserFav" useGeneratedKeys="true">
+    insert into tuya_iot.orange_user_fav (product_id, orange_user_id, 
+      create_time, update_time)
+    values (#{productId,jdbcType=BIGINT}, #{orangeUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.fav.model.OrangeUserFav">
+    insert into tuya_iot.orange_user_fav
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="favId != null">
+        fav_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="orangeUserId != null">
+        orange_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="favId != null">
+        #{favId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="orangeUserId != null">
+        #{orangeUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.fav.model.OrangeUserFav">
+    update tuya_iot.orange_user_fav
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="orangeUserId != null">
+        orange_user_id = #{orangeUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where fav_id = #{favId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.fav.model.OrangeUserFav">
+    update tuya_iot.orange_user_fav
+    set product_id = #{productId,jdbcType=BIGINT},
+      orange_user_id = #{orangeUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where fav_id = #{favId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectFavByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tuya_iot.orange_user_fav where 1=1 
+    <if test="orangeUserId != null">
+        and orange_user_id = #{orangeUserId,jdbcType=BIGINT}
+    </if>
+    <if test="productId != null">
+        and product_id = #{productId,jdbcType=BIGINT}
+     </if>
+  </select>
+</mapper>

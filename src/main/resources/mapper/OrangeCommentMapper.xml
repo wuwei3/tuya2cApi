@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment">
+    <id column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="orange_user_id" jdbcType="BIGINT" property="orangeUserId" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="user_role" jdbcType="VARCHAR" property="userRole" />
+    <result column="comment_order" jdbcType="INTEGER" property="commentOrder" />
+    <result column="comment_label" jdbcType="VARCHAR" property="commentLabel" />
+    <result column="comment_rating" jdbcType="INTEGER" property="commentRating" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment">
+    <result column="comment_content" jdbcType="LONGVARCHAR" property="commentContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_id, orange_user_id, product_id, country, user_role, comment_order, comment_label, 
+    comment_rating, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_comment
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_comment
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyProperty="commentId" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment" useGeneratedKeys="true">
+    insert into tuya_iot.orange_comment (orange_user_id, product_id, 
+      country, user_role, comment_order, 
+      comment_label, comment_rating, create_time, 
+      update_time, comment_content)
+    values (#{orangeUserId,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT}, 
+      #{country,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, #{commentOrder,jdbcType=INTEGER}, 
+      #{commentLabel,jdbcType=VARCHAR}, #{commentRating,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{commentContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment">
+    insert into tuya_iot.orange_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="orangeUserId != null">
+        orange_user_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="userRole != null">
+        user_role,
+      </if>
+      <if test="commentOrder != null">
+        comment_order,
+      </if>
+      <if test="commentLabel != null">
+        comment_label,
+      </if>
+      <if test="commentRating != null">
+        comment_rating,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="commentContent != null">
+        comment_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentId != null">
+        #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="orangeUserId != null">
+        #{orangeUserId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="commentOrder != null">
+        #{commentOrder,jdbcType=INTEGER},
+      </if>
+      <if test="commentLabel != null">
+        #{commentLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="commentRating != null">
+        #{commentRating,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment">
+    update tuya_iot.orange_comment
+    <set>
+      <if test="orangeUserId != null">
+        orange_user_id = #{orangeUserId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        user_role = #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="commentOrder != null">
+        comment_order = #{commentOrder,jdbcType=INTEGER},
+      </if>
+      <if test="commentLabel != null">
+        comment_label = #{commentLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="commentRating != null">
+        comment_rating = #{commentRating,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentContent != null">
+        comment_content = #{commentContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment">
+    update tuya_iot.orange_comment
+    set orange_user_id = #{orangeUserId,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      country = #{country,jdbcType=VARCHAR},
+      user_role = #{userRole,jdbcType=VARCHAR},
+      comment_order = #{commentOrder,jdbcType=INTEGER},
+      comment_label = #{commentLabel,jdbcType=VARCHAR},
+      comment_rating = #{commentRating,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      comment_content = #{commentContent,jdbcType=LONGVARCHAR}
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment">
+    update tuya_iot.orange_comment
+    set orange_user_id = #{orangeUserId,jdbcType=BIGINT},
+      product_id = #{productId,jdbcType=BIGINT},
+      country = #{country,jdbcType=VARCHAR},
+      user_role = #{userRole,jdbcType=VARCHAR},
+      comment_order = #{commentOrder,jdbcType=INTEGER},
+      comment_label = #{commentLabel,jdbcType=VARCHAR},
+      comment_rating = #{commentRating,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectCommentByCondition" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_comment where 1=1
+    <if test="orangeUserId != null">
+        and orange_user_id = #{orangeUserId,jdbcType=BIGINT}
+    </if>
+    <if test="productId != null">
+        and product_id = #{productId,jdbcType=BIGINT}
+     </if>
+  </select>
+</mapper>

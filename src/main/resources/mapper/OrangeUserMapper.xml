@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.mapping.OrangeUserMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser">
+    <id column="orange_user_id" jdbcType="BIGINT" property="orangeUserId" />
+    <result column="first_name" jdbcType="VARCHAR" property="firstName" />
+    <result column="last_name" jdbcType="VARCHAR" property="lastName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_role" jdbcType="VARCHAR" property="userRole" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    orange_user_id, first_name, last_name, email, password, user_role, country, token, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tuya_iot.orange_user
+    where orange_user_id = #{orangeUserId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_user
+    where orange_user_id = #{orangeUserId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyProperty="orangeUserId" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser" useGeneratedKeys="true">
+    insert into tuya_iot.orange_user (first_name, last_name, 
+      email, password, user_role, 
+      country, token, create_time, 
+      update_time)
+    values (#{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser">
+    insert into tuya_iot.orange_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orangeUserId != null">
+        orange_user_id,
+      </if>
+      <if test="firstName != null">
+        first_name,
+      </if>
+      <if test="lastName != null">
+        last_name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="userRole != null">
+        user_role,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="token != null">
+        token,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orangeUserId != null">
+        #{orangeUserId,jdbcType=BIGINT},
+      </if>
+      <if test="firstName != null">
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser">
+    update tuya_iot.orange_user
+    <set>
+      <if test="firstName != null">
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null">
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        user_role = #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orange_user_id = #{orangeUserId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser">
+    update tuya_iot.orange_user
+    set first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_role = #{userRole,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where orange_user_id = #{orangeUserId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tuya_iot.orange_user where 1=1 
+    <if test="firstName != null">
+        and first_name = #{firstName,jdbcType=VARCHAR}
+    </if>
+    <if test="lastName != null">
+        and last_name = #{lastName,jdbcType=VARCHAR}
+     </if>
+     <if test="email != null">
+        and email = #{email,jdbcType=VARCHAR}
+     </if>
+     <if test="password != null">
+        and password = #{password,jdbcType=VARCHAR}
+     </if>
+     <if test="userRole != null">
+        and user_role = #{userRole,jdbcType=VARCHAR}
+     </if>
+     <if test="token != null">
+        and token = #{token,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
+</mapper>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParamMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    <id column="product_param_id" jdbcType="BIGINT" property="productParamId" />
+    <result column="product_id" jdbcType="BIGINT" property="productId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    <result column="product_param_content" jdbcType="LONGVARCHAR" property="productParamContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    product_param_id, product_id, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    product_param_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_product_param
+    where product_param_id = #{productParamId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_product_param
+    where product_param_id = #{productParamId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    insert into tuya_iot.orange_product_param (product_id, create_time, 
+      update_time, product_param_content)
+    values (#{productId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{productParamContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    insert into tuya_iot.orange_product_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productParamId != null">
+        product_param_id,
+      </if>
+      <if test="productId != null">
+        product_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="productParamContent != null">
+        product_param_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productParamId != null">
+        #{productParamId,jdbcType=BIGINT},
+      </if>
+      <if test="productId != null">
+        #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productParamContent != null">
+        #{productParamContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    update tuya_iot.orange_product_param
+    <set>
+      <if test="productId != null">
+        product_id = #{productId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="productParamContent != null">
+        product_param_content = #{productParamContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where product_param_id = #{productParamId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    update tuya_iot.orange_product_param
+    set product_id = #{productId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      product_param_content = #{productParamContent,jdbcType=LONGVARCHAR}
+    where product_param_id = #{productParamId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam">
+    update tuya_iot.orange_product_param
+    set product_id = #{productId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where product_param_id = #{productParamId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getParamsByProductId" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_product_param
+    where product_id = #{productId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByProductId" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_product_param
+    where product_id = #{productId,jdbcType=BIGINT}
+  </delete>
+  
+</mapper>
