@@ -73,6 +73,8 @@
 			<groupId>com.orangelabs.reservation.public</groupId>
             <artifactId>ReservationPublicModel</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/ReservationPublicModel-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency>
 		
 		<dependency>
