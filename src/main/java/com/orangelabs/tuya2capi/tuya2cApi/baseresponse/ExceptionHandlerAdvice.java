@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.orangelabs.reservation.base.responsebody.BaseResponse;
-import com.orangelabs.reservation.base.responsebody.ResponseData;
-import com.orangelabs.reservation.base.responsebody.ResultEnums;
-import com.orangelabs.reservation.exception.BussinessException;
+import com.orangelabs.tuya2capi.tuya2cApi.exception.BussinessException;
 
 
 // tong yi yi chang chu li

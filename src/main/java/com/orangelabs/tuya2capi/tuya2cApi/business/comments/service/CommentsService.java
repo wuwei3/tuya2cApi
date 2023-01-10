@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.orangelabs.reservation.base.responsebody.ResultEnums;
-import com.orangelabs.reservation.exception.BussinessException;
+import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.req.CommentReqt;
@@ -24,6 +23,7 @@ import com.orangelabs.tuya2capi.tuya2cApi.business.comments.resp.CommentListResp
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.mapping.OrangeUserMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.resp.OrangUserType;
+import com.orangelabs.tuya2capi.tuya2cApi.exception.BussinessException;
 
 @Service
 public class CommentsService {

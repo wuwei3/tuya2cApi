@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orangelabs.reservation.base.responsebody.BaseResponse;
+import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.BaseResponse;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.req.UserRequest;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.service.OrangeUserService;
 

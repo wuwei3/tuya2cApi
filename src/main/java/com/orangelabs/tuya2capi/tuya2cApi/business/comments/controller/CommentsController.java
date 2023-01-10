@@ -1,6 +1,5 @@
 package com.orangelabs.tuya2capi.tuya2cApi.business.comments.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orangelabs.reservation.base.responsebody.BaseResponse;
+import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.BaseResponse;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.req.CommentReqt;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.service.CommentsService;
 

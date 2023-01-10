@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.orangelabs.reservation.base.responsebody.ResultEnums;
-import com.orangelabs.reservation.exception.BussinessException;
+import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParamMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct;
@@ -26,6 +25,7 @@ import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ParamReq;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ProductReq;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ParamsResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ProductResp;
+import com.orangelabs.tuya2capi.tuya2cApi.exception.BussinessException;
 
 @Service
 public class ProductService {

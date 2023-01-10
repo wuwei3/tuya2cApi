@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.orangelabs.reservation.base.responsebody.ResultEnums;
-import com.orangelabs.reservation.exception.BussinessException;
+import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.mapping.OrangeUserMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.req.UserRequest;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.resp.OrangUserType;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.resp.UserResp;
+import com.orangelabs.tuya2capi.tuya2cApi.exception.BussinessException;
 import com.orangelabs.tuya2capi.tuya2cApi.utils.MD5Util;
 import com.orangelabs.tuya2capi.tuya2cApi.utils.TokenProccessor;
 

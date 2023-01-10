@@ -8,10 +8,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-import com.orangelabs.reservation.base.responsebody.BaseResponse;
-import com.orangelabs.reservation.base.responsebody.ResponseData;
-import com.orangelabs.reservation.base.responsebody.ResultEnums;
-
 // tong yi xiang ying ti chu li
 @ControllerAdvice(annotations = BaseResponse.class)
 public class ResponseResultHandlerAdvice implements ResponseBodyAdvice{
