@@ -165,6 +165,7 @@ public class CommentsService {
 				resp.setRating(oc.getCommentRating());
 				resp.setProductId(oc.getProductId().toString());
 				resp.setRole(oc.getUserRole());
+				resp.setLabel(oc.getCommentLabel());
 				result.add(resp);
 			}
 		}

@@ -17,6 +17,8 @@ public class CommentListResp {
     
     private String role;
     
+    private String label;
+    
     private Map<String, Object> user_id = new HashMap<>();
 
 	public String get_id() {
@@ -75,4 +77,11 @@ public class CommentListResp {
 		this.user_id = user_id;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
 }
