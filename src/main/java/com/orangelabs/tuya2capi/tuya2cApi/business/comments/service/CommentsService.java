@@ -185,7 +185,7 @@ public class CommentsService {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("type", type);
-		map.put("_id", user.getOrangeUserId());
+		map.put("_id", user.getOrangeUserId().toString());
 		map.put("firstname", user.getFirstName());
 		map.put("lastname", user.getLastName());
 		
