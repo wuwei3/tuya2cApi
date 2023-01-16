@@ -24,4 +24,6 @@ public interface OrangeCommentMapper {
     int updateByPrimaryKey(OrangeComment record);
     
     List<OrangeComment> selectCommentByCondition(Map<String,Object> map);
+    
+    int deleteByProductId(Long productId);
 }

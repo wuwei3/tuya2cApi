@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParam2vMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v">
+    <id column="orange_product_param_id" jdbcType="BIGINT" property="orangeProductParamId" />
+    <result column="orange_product_id" jdbcType="BIGINT" property="orangeProductId" />
+    <result column="orange_product_param_key" jdbcType="VARCHAR" property="orangeProductParamKey" />
+    <result column="orange_product_param_vals" jdbcType="VARCHAR" property="orangeProductParamVals" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    orange_product_param_id, orange_product_id, orange_product_param_key, orange_product_param_vals, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orange_product_param2v
+    where orange_product_param_id = #{orangeProductParamId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from orange_product_param2v
+    where orange_product_param_id = #{orangeProductParamId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v">
+    insert into tuya_iot.orange_product_param2v (orange_product_id, 
+      orange_product_param_key, orange_product_param_vals, 
+      create_time, update_time)
+    values (#{orangeProductId,jdbcType=BIGINT}, 
+      #{orangeProductParamKey,jdbcType=VARCHAR}, #{orangeProductParamVals,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v">
+    insert into tuya_iot.orange_product_param2v
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orangeProductParamId != null">
+        orange_product_param_id,
+      </if>
+      <if test="orangeProductId != null">
+        orange_product_id,
+      </if>
+      <if test="orangeProductParamKey != null">
+        orange_product_param_key,
+      </if>
+      <if test="orangeProductParamVals != null">
+        orange_product_param_vals,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orangeProductParamId != null">
+        #{orangeProductParamId,jdbcType=BIGINT},
+      </if>
+      <if test="orangeProductId != null">
+        #{orangeProductId,jdbcType=BIGINT},
+      </if>
+      <if test="orangeProductParamKey != null">
+        #{orangeProductParamKey,jdbcType=VARCHAR},
+      </if>
+      <if test="orangeProductParamVals != null">
+        #{orangeProductParamVals,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v">
+    update tuya_iot.orange_product_param2v
+    <set>
+      <if test="orangeProductId != null">
+        orange_product_id = #{orangeProductId,jdbcType=BIGINT},
+      </if>
+      <if test="orangeProductParamKey != null">
+        orange_product_param_key = #{orangeProductParamKey,jdbcType=VARCHAR},
+      </if>
+      <if test="orangeProductParamVals != null">
+        orange_product_param_vals = #{orangeProductParamVals,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where orange_product_param_id = #{orangeProductParamId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v">
+    update tuya_iot.orange_product_param2v
+    set orange_product_id = #{orangeProductId,jdbcType=BIGINT},
+      orange_product_param_key = #{orangeProductParamKey,jdbcType=VARCHAR},
+      orange_product_param_vals = #{orangeProductParamVals,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where orange_product_param_id = #{orangeProductParamId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getParamsv2ByConditions" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tuya_iot.orange_product_param2v where 1=1 
+    <if test="productId != null">
+        and orange_product_id = #{productId,jdbcType=BIGINT}
+    </if>
+    
+    <if test="productParamKey != null">
+        and orange_product_param_key = #{productParamKey,jdbcType=VARCHAR}
+    </if>
+    
+    <if test="productParamVal != null">
+        and orange_product_param_vals = #{productParamVal,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="getValsByConditions" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tuya_iot.orange_product_param2v where 1=1 
+    <if test="productId != null">
+        and orange_product_id = #{productId,jdbcType=BIGINT}
+    </if>
+    
+    <if test="productParamKey != null">
+        and orange_product_param_key = #{productParamKey,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="getDistinctKeysByConditions" parameterType="java.util.Map" resultType="com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.DistinctParamKeyResp">
+    select 
+    distinct orange_product_param_key as "orangeProductParamKey",
+    orange_product_id as "productId"
+    from tuya_iot.orange_product_param2v where 1=1 
+    <if test="productId != null">
+        and orange_product_id = #{productId,jdbcType=BIGINT}
+    </if>
+    
+    <if test="productParamKey != null">
+        and orange_product_param_key = #{productParamKey,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <delete id="deleteByProductId" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_product_param2v
+    where product_id = #{productId,jdbcType=BIGINT}
+  </delete>
+</mapper>

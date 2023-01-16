@@ -23,7 +23,11 @@ import com.orangelabs.tuya2capi.tuya2cApi.business.comments.resp.CommentListResp
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.mapping.OrangeUserMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.resp.OrangUserType;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ParamsExistsResp;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.service.ProductService;
 import com.orangelabs.tuya2capi.tuya2cApi.exception.BussinessException;
+import com.orangelabs.tuya2capi.tuya2cApi.utils.ConstantUtil;
 
 @Service
 public class CommentsService {
@@ -35,6 +39,9 @@ public class CommentsService {
 	
 	@Autowired
 	private OrangeUserMapper orangeUserMapper;
+	
+	@Autowired
+	private ProductService productService;
 	
 	public Map<String, Object> getCommentsList(String productId) throws Exception {
 		log.info("get comment list, productId " + productId);
@@ -70,6 +77,7 @@ public class CommentsService {
 			log.info("del comment");
 			String commentid = reqt.getCommentId();
 			orangeCommentMapper.deleteByPrimaryKey(Long.valueOf(commentid));
+			deleteParamv2AfterDeleteComment(Long.valueOf(reqt.getProductId()), Long.valueOf(reqt.getUserId()));
 			map.put("message", "delete succcess");
 		}
 		
@@ -87,6 +95,17 @@ public class CommentsService {
 			orangeCommentMapper.updateByPrimaryKeyWithBLOBs(oc);
 		}
 		
+		Long productId = 0l;
+		String pid = reqt.getProductId();
+		if (pid != null && !"".equals(pid)) {
+			productId = Long.valueOf(pid);
+		}
+		Integer rate = 0;
+		String r = reqt.getRating();
+		if (r != null && !"".equals(r)) {
+			rate = Integer.parseInt(reqt.getRating());
+		}
+		createOrUpdateParamv2(reqt.getRole(),productId, rate, reqt.getLabel());
 		return transferToFrontResp(oc);
 	}
 	
@@ -199,6 +218,82 @@ public class CommentsService {
 		}
 		
 		return user;
+	}
+	
+	private void createOrUpdateParamv2(String role, Long productId, Integer rating, String label) throws Exception {
+		log.info("to impact the paramsv1 recommendation, role " + role + ",  productId " + productId + ", rating "+ rating);
+		
+		if (ConstantUtil.ROLE_PortfolioManager.equals(role)) {
+			if (rating >= 3) {
+				insertOrUpdateP2v(productId, ConstantUtil.Orange_Recommendation, ConstantUtil.Portfolio_Recommend,false);
+			} else {
+				deleteDataWithKeyVal(productId, ConstantUtil.Orange_Recommendation, ConstantUtil.Portfolio_Recommend, false);
+			}
+		} else if (ConstantUtil.ROLE_SupplyChainManager.equals(role)) {
+			if (rating >= 3) {
+				insertOrUpdateP2v(productId, ConstantUtil.Orange_Recommendation, ConstantUtil.SupplyChain_Recommend,false);
+			} else {
+				deleteDataWithKeyVal(productId, ConstantUtil.Orange_Recommendation, ConstantUtil.SupplyChain_Recommend,false);
+			}
+		} else if (ConstantUtil.ROLE_DeliveryManager.equals(role)) {
+			if (label != null && !"".equals(label)) {
+				insertOrUpdateP2v(productId, ConstantUtil.Orange_Validation, label,true);
+			}
+		}
+	}
+	
+	private void deleteParamv2AfterDeleteComment(Long productId, Long userId) throws Exception {
+		log.info("to delete the paramsv1 after the delete comment, userId " + userId + ",  productId " + productId);
+		
+		OrangeUser user = orangeUserMapper.selectByPrimaryKey(userId);
+		String role = user.getUserRole();
+		
+		log.info("role is  " + role);
+		
+		if (ConstantUtil.ROLE_PortfolioManager.equals(role)) {
+			deleteDataWithKeyVal(productId, ConstantUtil.Orange_Recommendation, ConstantUtil.Portfolio_Recommend, false);
+		} else if (ConstantUtil.ROLE_SupplyChainManager.equals(role)) {
+			deleteDataWithKeyVal(productId, ConstantUtil.Orange_Recommendation, ConstantUtil.SupplyChain_Recommend,false);
+		} else if (ConstantUtil.ROLE_DeliveryManager.equals(role)) {
+			deleteDataWithKeyVal(productId, ConstantUtil.Orange_Validation, "", true);
+		}
+	}
+	
+	private void insertOrUpdateP2v(Long productId, String key, String val, boolean isDeliverManager) throws Exception {
+		ParamsExistsResp resp = null;
+		
+		if (isDeliverManager) {
+			resp = productService.dataExistsWithKeyVal(productId, key, ""); // only need productid and key, the Orange Validation value is allow Orange Validated or Orange accessed
+		} else {
+			resp = productService.dataExistsWithKeyVal(productId, key, val); 
+		}
+		
+		boolean exists = resp.isEixts();
+		if (!exists) {
+			productService.insertSingelParamEntity(productId, key, val);
+		} else {
+			List<OrangeProductParam2v> list = resp.getList();
+			OrangeProductParam2v o2v = list.get(0);
+			productService.updateParams2v(o2v, val);
+		}
+	}
+	
+	private void deleteDataWithKeyVal(Long productId, String key, String val, boolean isDeliverManager) throws Exception {
+		log.info("delete the params,  productId " + productId + ", key " + key + ", val "+ val);
+		ParamsExistsResp resp = productService.dataExistsWithKeyVal(productId, key, val);
+		boolean exists = resp.isEixts();
+		if (exists) {
+			List<OrangeProductParam2v> list = resp.getList();
+			OrangeProductParam2v o2v = list.get(0);
+			if (isDeliverManager) {
+				productService.updateParams2v(o2v, null);
+			} else {
+				productService.deleteParams2v(o2v);
+			}
+		} else {
+			log.info("no need to delete anything");
+		}
+		
 	}
 
 }

@@ -195,4 +195,9 @@
         and product_id = #{productId,jdbcType=BIGINT}
      </if>
   </select>
+  
+  <delete id="deleteByProductId" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_comment
+    where product_id = #{productId,jdbcType=BIGINT}
+  </delete>
 </mapper>

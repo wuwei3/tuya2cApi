@@ -1,5 +1,6 @@
 package com.orangelabs.tuya2capi.tuya2cApi.business.products.resp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ParamsResp {
@@ -8,7 +9,7 @@ public class ParamsResp {
 	
     private String name;
 	
-	private List<String> vals;
+	private List<String> vals = new ArrayList<>();
 
 	public String get_id() {
 		return _id;

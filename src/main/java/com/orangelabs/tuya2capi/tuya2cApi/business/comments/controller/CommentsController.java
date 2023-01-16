@@ -59,6 +59,8 @@ public class CommentsController {
 		log.info("delete.....comments  ");
 		CommentReqt request = new CommentReqt();
 		request.setCommentId(commentId);
+		request.setProductId(productId);
+		request.setUserId(userId);
 		
 		Map<String, Object> map = commentsService.createOrUpdateComment(request, false, true);
 		return map;

@@ -16,7 +16,7 @@
 			connectionURL="jdbc:mysql://localhost:3306/tuya_iot" userId="root"
 			password="Orange@123com" />
 
-		<javaModelGenerator targetPackage="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model"
+		<javaModelGenerator targetPackage="com.orangelabs.tuya2capi.tuya2cApi.business.products.model"
 			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
@@ -27,13 +27,13 @@
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
-		<javaClientGenerator targetPackage="com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping"
+		<javaClientGenerator targetPackage="com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping"
 			targetProject="src/main/java"
 			type="XMLMAPPER">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
-		<table schema="tuya-iot" tableName="orange_comment" domainObjectName="OrangeComment"
+		<table schema="tuya-iot" tableName="orange_product_param2v" domainObjectName="OrangeProductParam2v"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">

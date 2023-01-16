@@ -17,12 +17,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
+import com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductMapper;
-import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParamMapper;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParam2vMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct;
-import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ParamReq;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ProductReq;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.DistinctParamKeyResp;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ParamsExistsResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ParamsResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ProductResp;
 import com.orangelabs.tuya2capi.tuya2cApi.exception.BussinessException;
@@ -36,7 +39,10 @@ public class ProductService {
 	private OrangeProductMapper orangeProductMapper;
 	
 	@Autowired
-	private OrangeProductParamMapper orangeProductParamMapper;
+	private OrangeProductParam2vMapper orangeProductParam2vMapper;
+	
+	@Autowired
+	private OrangeCommentMapper orangeCommentMapper;
 	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
 	public void createProduct(ProductReq req) throws Exception {
@@ -47,16 +53,17 @@ public class ProductService {
 		orangeProductMapper.insert(op);
 		log.info("product id " + op.getProductId());
 		
-		OrangeProductParam opp = getParamsEntity(op.getProductId(), req.getParams());
-		orangeProductParamMapper.insert(opp);
+		insertParamsEntity(op.getProductId(), req.getParams());
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
 	public Map<String, Object> deleteProduct(String productId) throws Exception {
 		log.info("delete product, id " + productId);
 		
-		orangeProductParamMapper.deleteByProductId(Long.valueOf(productId));
+		orangeProductParam2vMapper.deleteByProductId(Long.valueOf(productId));
 		orangeProductMapper.deleteByPrimaryKey(Long.valueOf(productId));
+		
+		orangeCommentMapper.deleteByProductId(Long.valueOf(productId));
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("message", "delete success");
@@ -127,41 +134,22 @@ public class ProductService {
 		return op;
 	}
 	
-	private OrangeProductParam getParamsEntity(Long productId, List<ParamReq> params) {
-		
-		OrangeProductParam opp = new OrangeProductParam();
-		
-		String paramswithid = genIDInPrarams(params);
-		if (paramswithid != null && !"".equals(paramswithid)) {
-			opp.setProductParamContent(paramswithid);
-		}
-		opp.setProductId(productId);
-		opp.setCreateTime(new Date());
-		opp.setUpdateTime(new Date());
-		
-		return opp;
-	}
-	
-	private String genIDInPrarams(List<ParamReq> params) {
-		
-		String result = "";
-		
+	private void insertParamsEntity(Long productId, List<ParamReq> params) throws Exception{
 		if (params != null && params.size() > 0) {
 			String jsonparams = JSON.toJSONString(params);
 			JSONArray ja = JSON.parseArray(jsonparams);
 			
 			for (int i =0;i<ja.size();i++) {
 				JSONObject jo = ja.getJSONObject(i);
-				int id = i + 1;
-				jo.put("_id", String.valueOf(id));
+				String paramName = jo.getString("name");
+				
+				JSONArray vals = jo.getJSONArray("vals"); // vals
+				for (int j =0;j<vals.size();j++) {
+					String val = (String)vals.get(j);
+					insertSingelParamEntity(productId, paramName, val);
+				}
 			}
-			
-			result = JSON.toJSONString(ja);
 		}
-		
-		System.out.println("result " + result);
-		
-		return result;
 	}
 	
 	
@@ -258,17 +246,97 @@ public class ProductService {
 	private List<ParamsResp> getParamsRespEntity(Long productId) {
 		log.info("get params resp entity by product id " + productId);
 		
-		List<ParamsResp> list = new ArrayList<>();
+		List<ParamsResp> listResult = new ArrayList<>();
 		
-		List<OrangeProductParam> paramList = orangeProductParamMapper.getParamsByProductId(productId);
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		
+		List<DistinctParamKeyResp> paramList = orangeProductParam2vMapper.getDistinctKeysByConditions(map);
 		
 		if (paramList !=null && paramList.size() > 0) {
-			OrangeProductParam pa= paramList.get(0);
-			String ps = pa.getProductParamContent();
-			list = JSON.parseArray(ps, ParamsResp.class);
+			for (int i =0;i<paramList.size();i++) {
+				DistinctParamKeyResp pa = paramList.get(i);
+				
+				String paramKey = pa.getOrangeProductParamKey();
+				map.put("productParamKey", paramKey);
+				
+				ParamsResp pr = new ParamsResp();
+				List<String> vals = getVals(map);
+				pr.set_id(String.valueOf(i+1)); // no use for late logic
+				pr.setName(paramKey);
+				if (vals != null && vals.size() > 0) {
+					pr.setVals(vals);
+				}
+				listResult.add(pr);
+			}
 		}
-		return list;
+		return listResult;
 	}
 	
-
+	private List<String> getVals(Map<String, Object> map) {
+		List<String> result = new ArrayList<>();
+		
+		List<OrangeProductParam2v> vals = orangeProductParam2vMapper.getValsByConditions(map);
+		if (vals!= null && vals.size() > 0) {
+			
+			for (OrangeProductParam2v o2v: vals) {
+				String val = o2v.getOrangeProductParamVals();
+				
+				if (val != null && !"".equals(val) && !"null".equals(val)) {
+					result.add(val);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public void insertSingelParamEntity(Long productId, String key, String val) throws Exception{
+		OrangeProductParam2v o2v = new OrangeProductParam2v();
+		o2v.setOrangeProductId(productId);
+		o2v.setOrangeProductParamKey(key);
+		o2v.setOrangeProductParamVals(val);
+		o2v.setCreateTime(new Date());
+		o2v.setUpdateTime(new Date());
+		
+		orangeProductParam2vMapper.insert(o2v);
+	}
+	
+	public void updateParams2v(OrangeProductParam2v o2v, String val) throws Exception{
+		o2v.setOrangeProductParamVals(val);
+		o2v.setUpdateTime(new Date());
+		orangeProductParam2vMapper.updateByPrimaryKey(o2v);
+	}
+	
+	public void deleteParams2v(OrangeProductParam2v o2v) throws Exception{
+		log.info("delete the o2v , param id " + o2v.getOrangeProductParamId());
+		orangeProductParam2vMapper.deleteByPrimaryKey(o2v.getOrangeProductParamId());
+	}
+	
+	public ParamsExistsResp dataExistsWithKeyVal(Long productId, String key, String val) throws Exception{
+		
+		log.info("to find the params exists,  productId " + productId + ", key " + key + ", val "+ val);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("productId", productId);
+		map.put("productParamKey", key);
+		
+		if (val != null && !"".equals(val)) {
+			map.put("productParamVal", val);
+		}
+		List<OrangeProductParam2v> list = orangeProductParam2vMapper.getParamsv2ByConditions(map);
+		
+		ParamsExistsResp resp = new ParamsExistsResp();
+		
+		if (list != null && list.size() > 0) {
+			log.info("key and val exits");
+			resp.setEixts(true);
+			resp.setList(list);
+		} else {
+			log.info("key and val not exits");
+			resp.setEixts(false);
+		}
+		
+		return resp;
+	}
 }
