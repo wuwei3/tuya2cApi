@@ -20,6 +20,8 @@ public class CommentListResp {
     private String label;
     
     private Map<String, Object> user_id = new HashMap<>();
+    
+    private CommentFileListResp commentFiles;
 
 	public String get_id() {
 		return _id;
@@ -83,5 +85,13 @@ public class CommentListResp {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public CommentFileListResp getCommentFiles() {
+		return commentFiles;
+	}
+
+	public void setCommentFiles(CommentFileListResp commentFiles) {
+		this.commentFiles = commentFiles;
 	}
 }

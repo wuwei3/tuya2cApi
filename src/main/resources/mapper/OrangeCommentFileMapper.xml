@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentFileMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile">
+    <id column="comment_file_id" jdbcType="BIGINT" property="commentFileId" />
+    <result column="comment_id" jdbcType="BIGINT" property="commentId" />
+    <result column="comment_file_name" jdbcType="VARCHAR" property="commentFileName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile">
+    <result column="comment_file" jdbcType="LONGVARBINARY" property="commentFile" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comment_file_id, comment_id, comment_file_name, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    comment_file
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_comment_file
+    where comment_file_id = #{commentFileId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByCommentId" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_comment_file
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_comment_file
+    where comment_file_id = #{commentFileId,jdbcType=BIGINT}
+  </delete>
+  
+  <delete id="deleteByCommentId" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_comment_file
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyProperty="commentFileId" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile" useGeneratedKeys="true">
+    insert into tuya_iot.orange_comment_file (comment_id, comment_file_name, 
+      create_time, update_time, comment_file
+      )
+    values (#{commentId,jdbcType=BIGINT}, #{commentFileName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{commentFile,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile">
+    insert into tuya_iot.orange_comment_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentFileId != null">
+        comment_file_id,
+      </if>
+      <if test="commentId != null">
+        comment_id,
+      </if>
+      <if test="commentFileName != null">
+        comment_file_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="commentFile != null">
+        comment_file,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentFileId != null">
+        #{commentFileId,jdbcType=BIGINT},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="commentFileName != null">
+        #{commentFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentFile != null">
+        #{commentFile,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile">
+    update tuya_iot.orange_comment_file
+    <set>
+      <if test="commentId != null">
+        comment_id = #{commentId,jdbcType=BIGINT},
+      </if>
+      <if test="commentFileName != null">
+        comment_file_name = #{commentFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commentFile != null">
+        comment_file = #{commentFile,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where comment_file_id = #{commentFileId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile">
+    update tuya_iot.orange_comment_file
+    set comment_id = #{commentId,jdbcType=BIGINT},
+      comment_file_name = #{commentFileName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      comment_file = #{commentFile,jdbcType=LONGVARBINARY}
+    where comment_file_id = #{commentFileId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile">
+    update tuya_iot.orange_comment_file
+    set comment_id = #{commentId,jdbcType=BIGINT},
+      comment_file_name = #{commentFileName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where comment_file_id = #{commentFileId,jdbcType=BIGINT}
+  </update>
+</mapper>

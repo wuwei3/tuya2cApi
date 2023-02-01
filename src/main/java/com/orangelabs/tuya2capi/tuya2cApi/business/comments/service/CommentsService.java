@@ -17,8 +17,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeComment;
+import com.orangelabs.tuya2capi.tuya2cApi.business.comments.model.OrangeCommentFile;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.req.CommentReqt;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.resp.CommentEditResp;
+import com.orangelabs.tuya2capi.tuya2cApi.business.comments.resp.CommentFileListResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.resp.CommentListResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.mapping.OrangeUserMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.model.OrangeUser;
@@ -42,6 +44,9 @@ public class CommentsService {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CommentFileService commentFileService;
 	
 	public Map<String, Object> getCommentsList(String productId) throws Exception {
 		log.info("get comment list, productId " + productId);
@@ -78,6 +83,7 @@ public class CommentsService {
 			String commentid = reqt.getCommentId();
 			orangeCommentMapper.deleteByPrimaryKey(Long.valueOf(commentid));
 			deleteParamv2AfterDeleteComment(Long.valueOf(reqt.getProductId()), Long.valueOf(reqt.getUserId()));
+			commentFileService.deleteCommentFile(Long.valueOf(commentid));
 			map.put("message", "delete succcess");
 		}
 		
@@ -185,11 +191,28 @@ public class CommentsService {
 				resp.setProductId(oc.getProductId().toString());
 				resp.setRole(oc.getUserRole());
 				resp.setLabel(oc.getCommentLabel());
+				
+				CommentFileListResp file = getFiles(oc.getCommentId());
+				resp.setCommentFiles(file);
 				result.add(resp);
 			}
 		}
 		
 		return result;
+	}
+	
+	private CommentFileListResp getFiles(Long commentId) throws Exception {
+		log.info("to get upload files, commentid " + commentId);
+		OrangeCommentFile file = commentFileService.getCommentFileByCommentId(commentId);
+		
+		if (file != null) {
+			CommentFileListResp resp = new CommentFileListResp();
+			resp.setCommentFileId(file.getCommentFileId().toString());
+			resp.setFileName(file.getCommentFileName());
+			return resp;
+		}
+		
+		return null;
 	}
 	
 	
