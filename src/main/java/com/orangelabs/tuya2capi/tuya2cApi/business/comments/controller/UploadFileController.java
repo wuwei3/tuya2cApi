@@ -1,6 +1,5 @@
 package com.orangelabs.tuya2capi.tuya2cApi.business.comments.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.BaseResponse;
+import com.orangelabs.tuya2capi.tuya2cApi.business.comments.req.CommentReqt;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.resp.CommentFileListResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.service.CommentFileService;
 
@@ -72,5 +73,11 @@ public class UploadFileController {
 		String result = commentFileService.downloadFile(commentFileId, response);
 		return result;
 	}
-
+	
+	@RequestMapping(value = "/deleteFile/{commentFileId}", method = { RequestMethod.DELETE})
+	@ResponseBody
+	public void deleteFile(@PathVariable String commentFileId) throws Exception {
+		log.info("delete.....comment file");
+		commentFileService.deleteFile(Long.valueOf(commentFileId));
+	}
 }

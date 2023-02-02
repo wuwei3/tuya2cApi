@@ -134,34 +134,17 @@ public class CommentFileService {
 		return result;
 	}
 	
-	public static File byte2file(byte[] bytes, String fileFullPath) {
-        if (bytes == null) {
-            return null;
-        }
-        FileOutputStream fileOutputStream = null;
-        try {
-            File file = new File(fileFullPath);
-            //判断文件是否存在
-            if (file.exists()) {
-                file.mkdirs();
-            }
-            fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(bytes);
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (fileOutputStream != null) {
-                try {
-                    fileOutputStream.close();
-                }  catch (IOException ioe) {
-                    ioe.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
-	
-	
+	public void deleteFile(Long commentFileId) throws Exception {
+		log.info("delte the file while clicking the upload delete, commentFileId " + commentFileId);
+		OrangeCommentFile commentfile = orangeCommentFileMapper.selectByPrimaryKey(commentFileId);
+		if (commentfile != null) {
+			commentfile.setUpdateTime(new Date());
+			commentfile.setCommentFileName(null);
+			commentfile.setCommentFile(null);
+			orangeCommentFileMapper.updateByPrimaryKeyWithBLOBs(commentfile);
+		} else {
+			log.info("zhao bu dao file ji lu");
+		}
+	}
 
 }
