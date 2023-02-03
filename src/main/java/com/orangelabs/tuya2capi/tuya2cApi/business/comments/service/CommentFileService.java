@@ -46,17 +46,13 @@ public class CommentFileService {
 				commentfile.setUpdateTime(new Date());
 				
 				orangeCommentFileMapper.updateByPrimaryKeyWithBLOBs(commentfile);
+			} else {
+				log.info("update, mei wen jian ,de qu chuangjian yi ge");
+				commentfile = insertFile(commentId, file, fileName);
 			}
 		} else {
 			log.info("to create new comment file,  commentId " + commentId + ", fileName " + fileName);
-			commentfile = new OrangeCommentFile();
-			
-			commentfile.setCommentFile(file);
-			commentfile.setCommentFileName(fileName);
-			commentfile.setUpdateTime(new Date());
-			commentfile.setCommentId(commentId);
-			commentfile.setCreateTime(new Date());
-			orangeCommentFileMapper.insert(commentfile);
+			commentfile = insertFile(commentId, file, fileName);
 		}
 		
 		if (commentfile != null) {
@@ -67,6 +63,19 @@ public class CommentFileService {
 		} else {
 			return null;
 		}
+	}
+	
+	private OrangeCommentFile insertFile(Long commentId, byte[] file, String fileName) {
+		OrangeCommentFile commentfile = new OrangeCommentFile();
+		
+		commentfile.setCommentFile(file);
+		commentfile.setCommentFileName(fileName);
+		commentfile.setUpdateTime(new Date());
+		commentfile.setCommentId(commentId);
+		commentfile.setCreateTime(new Date());
+		orangeCommentFileMapper.insert(commentfile);
+		
+		return commentfile;
 	}
 	
 	
@@ -136,15 +145,7 @@ public class CommentFileService {
 	
 	public void deleteFile(Long commentFileId) throws Exception {
 		log.info("delte the file while clicking the upload delete, commentFileId " + commentFileId);
-		OrangeCommentFile commentfile = orangeCommentFileMapper.selectByPrimaryKey(commentFileId);
-		if (commentfile != null) {
-			commentfile.setUpdateTime(new Date());
-			commentfile.setCommentFileName(null);
-			commentfile.setCommentFile(null);
-			orangeCommentFileMapper.updateByPrimaryKeyWithBLOBs(commentfile);
-		} else {
-			log.info("zhao bu dao file ji lu");
-		}
+		orangeCommentFileMapper.deleteByPrimaryKey(commentFileId);
 	}
 
 }

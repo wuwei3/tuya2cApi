@@ -51,7 +51,6 @@ public class UploadFileController {
 			@RequestParam(value = "isUpdateFile", required = false) String isUpdateFile, HttpServletRequest request)
 			throws Exception {
 		log.info("upload file After Comment, commentId  " + commentId);
-		CommentFileListResp resp = new CommentFileListResp();
 		if (files != null && files.length > 0 && commentId != null && !"".equals(commentId)) {
 			log.info("files length  " + files.length);
 			boolean update = "true".equals(isUpdateFile) ? true : false;
@@ -60,10 +59,11 @@ public class UploadFileController {
 			byte[] content = file.getBytes();
 			String fileName = file.getOriginalFilename();
 
-			resp = commentFileService.insertOrUpdate(Long.valueOf(commentId), content, fileName,
+			CommentFileListResp resp = commentFileService.insertOrUpdate(Long.valueOf(commentId), content, fileName,
 					update);
+			return resp;
 		}
-		return resp;
+		return null;
 	}
 	
 	@RequestMapping(value = "/downloadFile", method = { RequestMethod.GET })
