@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orangelabs.tuya2capi.tuya2cApi.business.news.mapping.OrangeNewsMapper">
+  <resultMap id="BaseResultMap" type="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNews">
+    <id column="news_id" jdbcType="BIGINT" property="newsId" />
+    <result column="news_title" jdbcType="VARCHAR" property="newsTitle" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNewsWithBLOBs">
+    <result column="news_image" jdbcType="LONGVARBINARY" property="newsImage" />
+    <result column="news_content" jdbcType="LONGVARBINARY" property="newsContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    news_id, news_title, create_time, update_time, publish_time, status
+  </sql>
+  <sql id="Blob_Column_List">
+    news_image, news_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_news
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tuya_iot.orange_news
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyProperty="newsId" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNewsWithBLOBs" useGeneratedKeys="true">
+    insert into tuya_iot.orange_news (news_title, create_time, 
+      update_time, publish_time, status, 
+      news_image, news_content)
+    values (#{newsTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{publishTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{newsImage,jdbcType=LONGVARBINARY}, #{newsContent,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNewsWithBLOBs">
+    insert into tuya_iot.orange_news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="newsTitle != null">
+        news_title,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="newsImage != null">
+        news_image,
+      </if>
+      <if test="newsContent != null">
+        news_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        #{newsId,jdbcType=BIGINT},
+      </if>
+      <if test="newsTitle != null">
+        #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="newsImage != null">
+        #{newsImage,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="newsContent != null">
+        #{newsContent,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNewsWithBLOBs">
+    update tuya_iot.orange_news
+    <set>
+      <if test="newsTitle != null">
+        news_title = #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="newsImage != null">
+        news_image = #{newsImage,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="newsContent != null">
+        news_content = #{newsContent,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNewsWithBLOBs">
+    update tuya_iot.orange_news
+    set news_title = #{newsTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      news_image = #{newsImage,jdbcType=LONGVARBINARY},
+      news_content = #{newsContent,jdbcType=LONGVARBINARY}
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.news.model.OrangeNews">
+    update orange_news
+    set news_title = #{newsTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectAllList" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_news
+    where status=1 order by create_time desc
+  </select>
+  
+  <select id="selectTop3List" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_news
+    where status=1 order by create_time desc limit 3
+  </select>
+  
+</mapper>
