@@ -16,6 +16,8 @@ public class ProductResp {
 	
 	private String price;
 	
+	private String imageBase64;
+	
 	private List<ParamsResp> params;
 
 	public String get_id() {
@@ -72,5 +74,13 @@ public class ProductResp {
 
 	public void setParams(List<ParamsResp> params) {
 		this.params = params;
+	}
+
+	public String getImageBase64() {
+		return imageBase64;
+	}
+
+	public void setImageBase64(String imageBase64) {
+		this.imageBase64 = imageBase64;
 	}
 }

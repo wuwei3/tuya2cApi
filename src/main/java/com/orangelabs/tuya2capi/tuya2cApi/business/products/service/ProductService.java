@@ -128,6 +128,12 @@ public class ProductService {
 			op.setProductTags(ptags);
 		}
 		
+		String base64 = req.getImageBase64();
+		if (base64 != null && !"".equals(base64)) {
+			byte[] bc = base64.getBytes();
+			op.setImgBlob(bc);
+		}
+		
 		op.setCreateTime(new Date());
 		op.setUpdateTime(new Date());
 		
@@ -136,14 +142,11 @@ public class ProductService {
 	
 	private void insertParamsEntity(Long productId, List<ParamReq> params) throws Exception{
 		if (params != null && params.size() > 0) {
-			String jsonparams = JSON.toJSONString(params);
-			JSONArray ja = JSON.parseArray(jsonparams);
-			
-			for (int i =0;i<ja.size();i++) {
-				JSONObject jo = ja.getJSONObject(i);
-				String paramName = jo.getString("name");
+			for (int i =0;i<params.size();i++) {
+				ParamReq jo = params.get(i);
+				String paramName = jo.getName();
 				
-				JSONArray vals = jo.getJSONArray("vals"); // vals
+				List<String> vals = jo.getVals(); // vals
 				for (int j =0;j<vals.size();j++) {
 					String val = (String)vals.get(j);
 					insertSingelParamEntity(productId, paramName, val);
@@ -227,6 +230,11 @@ public class ProductService {
 	    resp.setImgUrl(op.getImgUrl());
 	    resp.setPrice(op.getProductPrice());
 	    resp.setPath(op.getProductPath());
+	    byte[] image = op.getImgBlob();
+		if (image != null && image.length > 0) {
+			String imageToFront = new String(image);
+			resp.setImageBase64(imageToFront);
+		}
 	    
 	    String tagsDB = op.getProductTags();
 	    if (tagsDB != null && !"".equals(tagsDB)) {

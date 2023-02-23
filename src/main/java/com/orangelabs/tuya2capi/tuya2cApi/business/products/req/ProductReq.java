@@ -14,6 +14,8 @@ public class ProductReq {
 	
 	private String price;
 	
+	private String imageBase64;
+	
 	private List<ParamReq> params;
 
 	public String getName() {
@@ -62,5 +64,13 @@ public class ProductReq {
 
 	public void setParams(List<ParamReq> params) {
 		this.params = params;
+	}
+
+	public String getImageBase64() {
+		return imageBase64;
+	}
+
+	public void setImageBase64(String imageBase64) {
+		this.imageBase64 = imageBase64;
 	}
 }

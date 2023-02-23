@@ -19,6 +19,8 @@ public class OrangeProduct {
 
     private Date updateTime;
 
+    private byte[] imgBlob;
+
     public Long getProductId() {
         return productId;
     }
@@ -81,5 +83,13 @@ public class OrangeProduct {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public byte[] getImgBlob() {
+        return imgBlob;
+    }
+
+    public void setImgBlob(byte[] imgBlob) {
+        this.imgBlob = imgBlob;
     }
 }

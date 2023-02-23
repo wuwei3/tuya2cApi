@@ -19,6 +19,8 @@ public interface OrangeProductMapper {
 
     int updateByPrimaryKeySelective(OrangeProduct record);
 
+    int updateByPrimaryKeyWithBLOBs(OrangeProduct record);
+
     int updateByPrimaryKey(OrangeProduct record);
     
     List<OrangeProduct> selectProductByCondition(Map<String,Object> map);
