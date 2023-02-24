@@ -14,10 +14,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentMapper;
+import com.orangelabs.tuya2capi.tuya2cApi.business.fav.mapping.OrangeUserFavMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParam2vMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct;
@@ -44,6 +43,9 @@ public class ProductService {
 	@Autowired
 	private OrangeCommentMapper orangeCommentMapper;
 	
+	@Autowired
+	private OrangeUserFavMapper orangeUserFavMapper;
+	
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
 	public void createProduct(ProductReq req) throws Exception {
 		log.info("create new product " + req.getName());
@@ -64,6 +66,8 @@ public class ProductService {
 		orangeProductMapper.deleteByPrimaryKey(Long.valueOf(productId));
 		
 		orangeCommentMapper.deleteByProductId(Long.valueOf(productId));
+		
+		orangeUserFavMapper.deleteByProductId(Long.valueOf(productId));
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("message", "delete success");

@@ -22,4 +22,6 @@ public interface OrangeUserFavMapper {
     int updateByPrimaryKey(OrangeUserFav record);
     
     List<OrangeUserFav> selectFavByCondition(Map<String,Object> map);
+    
+    int deleteByProductId(Long productId);
 }
