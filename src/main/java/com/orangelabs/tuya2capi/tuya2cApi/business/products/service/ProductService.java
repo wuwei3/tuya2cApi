@@ -98,12 +98,16 @@ public class ProductService {
 		return map;
 	}
 	
-	private OrangeProduct getProductEntity(ProductReq req) {
+	private OrangeProduct getProductEntity(ProductReq req) throws Exception {
 		
 		OrangeProduct op = new OrangeProduct();
 		
 		String name = req.getName();
 		if (name != null && !"".equals(name)) {
+			List<OrangeProduct> productsSize = getProductBySize(name);
+			if (productsSize != null && productsSize.size() > 0) {
+				name = name + "(" + productsSize.size() + ")";
+			}
 			op.setProductName(name);
 		}
 		
@@ -346,5 +350,16 @@ public class ProductService {
 		}
 		
 		return resp;
+	}
+	
+	public List<OrangeProduct> getProductBySize(String productName) throws Exception{
+		log.info("get duplicate product name " + productName);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("productName", productName);
+		
+		List<OrangeProduct> products = orangeProductMapper.selectProductByCondition(map);
+		
+		return products;
 	}
 }
