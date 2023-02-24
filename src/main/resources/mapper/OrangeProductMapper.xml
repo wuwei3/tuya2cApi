@@ -166,7 +166,7 @@
     <include refid="Blob_Column_List" />
     from tuya_iot.orange_product where 1=1 
     <if test="productName != null">
-        and product_name = #{productName,jdbcType=VARCHAR}
+        and product_name LIKE CONCAT(#{productName},'%')
     </if>
     <if test="path != null">
         and product_path LIKE CONCAT(#{path},'%')

@@ -63,7 +63,7 @@ public class UploadProductsExcelService {
 				}
 			
 		    }
-			System.out.println("end ");
+			log.info("upload end ");
 	        
 		} else {
 			throw new BussinessException(ResultEnums.BUSSINESS_ERROR, " file is not excel!!!");
@@ -74,7 +74,7 @@ public class UploadProductsExcelService {
 	private List<ProductReq> getProductsList(Sheet sheet, Map<Integer, String> imageMap, Map<Integer,String> columnNameMap) {
 		List<ProductReq> result = new ArrayList<>();
 		 int rows = sheet.getLastRowNum();
-         for (int i = 1; i < rows; i++) { // tiao guo biao tou
+         for (int i = 1; i <= rows; i++) { // tiao guo biao tou
          	Row row = sheet.getRow(i);
          	ProductReq req = createProductRequest(row, imageMap, i, columnNameMap);
          	if (req != null) {
@@ -118,7 +118,6 @@ public class UploadProductsExcelService {
         for (int i = 3; i < lastCellNum; i++) {
             //取出每一列的名
             String cellValue = sheetTitleRow.getCell(i).getStringCellValue();
-            log.info("lieming " + cellValue);
             
             map.put(i, cellValue);
         }

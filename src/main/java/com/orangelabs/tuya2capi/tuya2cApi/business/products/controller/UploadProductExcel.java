@@ -53,7 +53,7 @@ public class UploadProductExcel {
 					folder.mkdir();
 				}
 				
-				String filepath = fileStorepath + File.separator + upload_file.getOriginalFilename();
+				String filepath = fileStorepath + upload_file.getOriginalFilename();
 				File storefile = new File(filepath);		
 				upload_file.transferTo(storefile);
 				
