@@ -34,7 +34,7 @@ public class UploadProductsExcelService {
 	@Autowired
 	private ProductService productService;
 	
-	public void uploadDataToDb(String fileStorepath, String imageStoreFolder, String filename) throws Exception {
+	public int uploadDataToDb(String fileStorepath, String imageStoreFolder, String filename) throws Exception {
 		log.info("to insert data to DB, ");
 		log.info("fileStorepath " + fileStorepath);
 		log.info("imageStoreFolder " + imageStoreFolder);
@@ -64,7 +64,7 @@ public class UploadProductsExcelService {
 			
 		    }
 			log.info("upload end ");
-	        
+	        return result.size();
 		} else {
 			throw new BussinessException(ResultEnums.BUSSINESS_ERROR, " file is not excel!!!");
 		}

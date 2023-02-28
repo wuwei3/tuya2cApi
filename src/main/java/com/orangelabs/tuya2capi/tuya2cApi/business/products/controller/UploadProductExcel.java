@@ -57,9 +57,9 @@ public class UploadProductExcel {
 				File storefile = new File(filepath);		
 				upload_file.transferTo(storefile);
 				
-				uploadProductsExcelService.uploadDataToDb(filepath, imageStorePath, upload_file.getOriginalFilename());
+				int num = uploadProductsExcelService.uploadDataToDb(filepath, imageStorePath, upload_file.getOriginalFilename());
 				
-				msg = "Product data created";
+				msg = num + " products added successfully";
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 				msg = e.getMessage();
