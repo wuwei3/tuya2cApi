@@ -64,7 +64,11 @@ public class UploadProductsExcelService {
 			
 		    }
 			log.info("upload end ");
-	        return result.size();
+			if (result != null && result.size() > 0) {
+				return result.size();
+			} else {
+				return 0;
+			}
 		} else {
 			throw new BussinessException(ResultEnums.BUSSINESS_ERROR, " file is not excel!!!");
 		}
