@@ -151,6 +151,6 @@
   
   <delete id="deleteByProductId" parameterType="java.lang.Long">
     delete from tuya_iot.orange_product_param2v
-    where product_id = #{productId,jdbcType=BIGINT}
+    where orange_product_id = #{productId,jdbcType=BIGINT}
   </delete>
 </mapper>
