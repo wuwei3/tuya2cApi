@@ -14,6 +14,8 @@ public class ProductResp {
 	
 	private String imgUrl;
 	
+	private String productManufacturer;
+	
 	private String price;
 	
 	private String imageBase64;
@@ -82,5 +84,13 @@ public class ProductResp {
 
 	public void setImageBase64(String imageBase64) {
 		this.imageBase64 = imageBase64;
+	}
+
+	public String getProductManufacturer() {
+		return productManufacturer;
+	}
+
+	public void setProductManufacturer(String productManufacturer) {
+		this.productManufacturer = productManufacturer;
 	}
 }

@@ -6,6 +6,7 @@
     <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="product_path" jdbcType="VARCHAR" property="productPath" />
     <result column="product_price" jdbcType="VARCHAR" property="productPrice" />
+    <result column="product_manufacturer" jdbcType="VARCHAR" property="productManufacturer" />
     <result column="img_url" jdbcType="VARCHAR" property="imgUrl" />
     <result column="product_tags" jdbcType="CHAR" property="productTags" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -15,8 +16,8 @@
     <result column="img_blob" jdbcType="LONGVARBINARY" property="imgBlob" />
   </resultMap>
   <sql id="Base_Column_List">
-    product_id, product_name, product_path, product_price, img_url, product_tags, create_time, 
-    update_time
+    product_id, product_name, product_path, product_price, product_manufacturer, img_url, 
+    product_tags, create_time, update_time
   </sql>
   <sql id="Blob_Column_List">
     img_blob
@@ -35,13 +36,13 @@
   </delete>
   <insert id="insert" keyProperty="productId" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct" useGeneratedKeys="true">
     insert into tuya_iot.orange_product (product_name, product_path, 
-      product_price, img_url, product_tags, 
-      create_time, update_time, img_blob
-      )
+      product_price, product_manufacturer, img_url, 
+      product_tags, create_time, update_time, 
+      img_blob)
     values (#{productName,jdbcType=VARCHAR}, #{productPath,jdbcType=VARCHAR}, 
-      #{productPrice,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{productTags,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{imgBlob,jdbcType=LONGVARBINARY}
-      )
+      #{productPrice,jdbcType=VARCHAR}, #{productManufacturer,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{productTags,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{imgBlob,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct">
     insert into tuya_iot.orange_product
@@ -57,6 +58,9 @@
       </if>
       <if test="productPrice != null">
         product_price,
+      </if>
+      <if test="productManufacturer != null">
+        product_manufacturer,
       </if>
       <if test="imgUrl != null">
         img_url,
@@ -87,6 +91,9 @@
       <if test="productPrice != null">
         #{productPrice,jdbcType=VARCHAR},
       </if>
+      <if test="productManufacturer != null">
+        #{productManufacturer,jdbcType=VARCHAR},
+      </if>
       <if test="imgUrl != null">
         #{imgUrl,jdbcType=VARCHAR},
       </if>
@@ -116,6 +123,9 @@
       <if test="productPrice != null">
         product_price = #{productPrice,jdbcType=VARCHAR},
       </if>
+      <if test="productManufacturer != null">
+        product_manufacturer = #{productManufacturer,jdbcType=VARCHAR},
+      </if>
       <if test="imgUrl != null">
         img_url = #{imgUrl,jdbcType=VARCHAR},
       </if>
@@ -139,6 +149,7 @@
     set product_name = #{productName,jdbcType=VARCHAR},
       product_path = #{productPath,jdbcType=VARCHAR},
       product_price = #{productPrice,jdbcType=VARCHAR},
+      product_manufacturer = #{productManufacturer,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
       product_tags = #{productTags,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -151,13 +162,13 @@
     set product_name = #{productName,jdbcType=VARCHAR},
       product_path = #{productPath,jdbcType=VARCHAR},
       product_price = #{productPrice,jdbcType=VARCHAR},
+      product_manufacturer = #{productManufacturer,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
       product_tags = #{productTags,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where product_id = #{productId,jdbcType=BIGINT}
   </update>
-  
   
   <select id="selectProductByCondition" parameterType="java.util.Map" resultMap="ResultMapWithBLOBs">
     select 

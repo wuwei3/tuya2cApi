@@ -25,6 +25,8 @@ public class ConstantUtil {
 	
 	public final static int PRODUCTPATH_COLUMN_NUM = 2;
 	
+	public final static int START_INDEX_NUM = 4;
+	
 	public final static List<String> DEALWITH_COLUMNS = Arrays.asList("Function Description", "Product on Sale Time");
 	
 	public final static List<String> NODISPLAY_COLUMNS = Arrays.asList("Market Specifications", "Sales Area","Warranty","Packing Quantity","Packing List","Bulk Delivery", "Product on Sale Time","Package Size","Carton Size","Unsales Area");

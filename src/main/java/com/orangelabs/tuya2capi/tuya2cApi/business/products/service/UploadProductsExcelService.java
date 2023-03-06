@@ -51,7 +51,7 @@ public class UploadProductsExcelService {
 	        // reader the row data
 			Sheet sheet = workbook.getSheetAt(0);
 			
-			// get all columns name, from index 3,
+			// get all columns name, from index 4,
 			Map<Integer,String> columnNameMap = getColumnName(sheet);
 			
             // get result list;
@@ -102,6 +102,9 @@ public class UploadProductsExcelService {
 		String path = ExcelReaderUtil.getCellValue(row.getCell(ConstantUtil.PRODUCTPATH_COLUMN_NUM));
 		req.setPath(dealwithpath(path));
 		
+		String manufac = ExcelReaderUtil.getCellValue(row.getCell(ConstantUtil.START_INDEX_NUM - 1)); // zai di 4 lie
+		req.setProductManufacturer(manufac);
+		
 		if (imageMap != null && imageMap.size() > 0) {
     		String imagepath = imageMap.get(mapIndex);
     		String base64 = tranferImg2Base64(imagepath);
@@ -119,7 +122,7 @@ public class UploadProductsExcelService {
 		Row sheetTitleRow = sheet.getRow(sheet.getFirstRowNum());
         // 取出最后一列
         short lastCellNum = sheetTitleRow.getLastCellNum();
-        for (int i = 3; i < lastCellNum; i++) {
+        for (int i = ConstantUtil.START_INDEX_NUM; i < lastCellNum; i++) {
             //取出每一列的名
             String cellValue = sheetTitleRow.getCell(i).getStringCellValue();
             

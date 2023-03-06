@@ -11,6 +11,8 @@ public class OrangeProduct {
 
     private String productPrice;
 
+    private String productManufacturer;
+
     private String imgUrl;
 
     private String productTags;
@@ -51,6 +53,14 @@ public class OrangeProduct {
 
     public void setProductPrice(String productPrice) {
         this.productPrice = productPrice == null ? null : productPrice.trim();
+    }
+
+    public String getProductManufacturer() {
+        return productManufacturer;
+    }
+
+    public void setProductManufacturer(String productManufacturer) {
+        this.productManufacturer = productManufacturer == null ? null : productManufacturer.trim();
     }
 
     public String getImgUrl() {

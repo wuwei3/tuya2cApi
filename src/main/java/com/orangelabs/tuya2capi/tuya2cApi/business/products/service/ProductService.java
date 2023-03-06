@@ -130,6 +130,11 @@ public class ProductService {
 			op.setProductPrice(price);
 		}
 		
+		String manufac = req.getProductManufacturer();
+		if (manufac != null && !"".equals(manufac)) {
+			op.setProductManufacturer(manufac);
+		}
+		
 		List<String> tags = req.getTags();
 		if (tags != null && tags.size() > 0) {
 			String ptags = String.join(",", tags);
@@ -236,6 +241,7 @@ public class ProductService {
 	    resp.set_id(op.getProductId().toString());
 	    resp.setName(op.getProductName());
 	    resp.setImgUrl(op.getImgUrl());
+	    resp.setProductManufacturer(op.getProductManufacturer());
 	    resp.setPrice(op.getProductPrice());
 	    resp.setPath(op.getProductPath());
 	    byte[] image = op.getImgBlob();

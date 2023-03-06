@@ -10,6 +10,8 @@ public class ProductReq {
 	
 	private List<String> tags;
 	
+	private String productManufacturer;
+	
 	private String imgUrl;
 	
 	private String price;
@@ -72,5 +74,13 @@ public class ProductReq {
 
 	public void setImageBase64(String imageBase64) {
 		this.imageBase64 = imageBase64;
+	}
+
+	public String getProductManufacturer() {
+		return productManufacturer;
+	}
+
+	public void setProductManufacturer(String productManufacturer) {
+		this.productManufacturer = productManufacturer;
 	}
 }
