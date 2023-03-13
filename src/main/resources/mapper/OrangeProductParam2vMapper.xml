@@ -133,6 +133,7 @@
     <if test="productParamKey != null">
         and orange_product_param_key = #{productParamKey,jdbcType=VARCHAR}
     </if>
+    order by orange_product_param_key
   </select>
   
   <select id="getDistinctKeysByConditions" parameterType="java.util.Map" resultType="com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.DistinctParamKeyResp">
@@ -147,6 +148,7 @@
     <if test="productParamKey != null">
         and orange_product_param_key = #{productParamKey,jdbcType=VARCHAR}
     </if>
+    order by orange_product_param_key
   </select>
   
   <delete id="deleteByProductId" parameterType="java.lang.Long">

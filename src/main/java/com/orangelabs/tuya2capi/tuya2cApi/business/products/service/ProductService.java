@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.comments.mapping.OrangeCommentMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.fav.mapping.OrangeUserFavMapper;
@@ -21,6 +22,7 @@ import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProduc
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.mapping.OrangeProductParam2vMapper;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProductParam2v;
+import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.AdminEditParams;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ParamReq;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ProductReq;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.DistinctParamKeyResp;
@@ -371,5 +373,39 @@ public class ProductService {
 		List<OrangeProduct> products = orangeProductMapper.selectProductByCondition(map);
 		
 		return products;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+	public Map<String, Object> updateParams(String productId, AdminEditParams request) throws Exception{
+		log.info("UPDATE PARAMS productId " + productId + "   req body " + JSONObject.toJSONString(request));
+		
+		String key = request.getParamKey();
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("productParamKey", key);
+		map.put("productId", Long.valueOf(productId));
+		
+		List<OrangeProductParam2v> list = orangeProductParam2vMapper.getParamsv2ByConditions(map);
+		if (list != null && list.size() > 0) {
+			
+			for (OrangeProductParam2v op: list) {
+				orangeProductParam2vMapper.deleteByPrimaryKey(op.getOrangeProductParamId());
+			}
+			
+			log.info("delete param end, to insert new ");
+			
+			String vals = request.getParamVals();
+			if (vals != null && !"".equals(vals)) {
+				String[] sa = vals.split(",");
+				for (String val:sa) {
+					insertSingelParamEntity(Long.valueOf(productId),key, val);
+				}
+			}
+		} else {
+			log.info(key + " and productid  " + productId + " is 0 in params!!!");
+		}
+		
+		Map<String, Object> resp = getProductDetail(productId);
+		return resp;
 	}
 }
