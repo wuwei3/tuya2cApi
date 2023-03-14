@@ -94,6 +94,11 @@ public class ProductService {
 			op.setProductPrice(price);
 		}
 		
+		String manu = req.getProductManufacturer();
+		if (manu != null && !"".equals(manu)) {
+			op.setProductManufacturer(manu);
+		}
+		
 		op.setUpdateTime(new Date());
 		
 		orangeProductMapper.updateByPrimaryKey(op);
