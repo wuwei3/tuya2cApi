@@ -145,7 +145,7 @@ public class UploadProductsExcelService {
 				
 				String values = ExcelReaderUtil.getCellValue(row.getCell(mapKey));
 				if (!ConstantUtil.DEALWITH_COLUMNS.contains(keyName)) {
-					List<String> vals = getParamsValuesWithSplit(values);
+					List<String> vals = getParamsValuesWithSplit(values, keyName);
 					pr.setVals(vals);
 				} else {
 					values = values.replaceAll("\r|\n|\t", " ");
@@ -160,13 +160,19 @@ public class UploadProductsExcelService {
 		return result;
 	}
 	
-	private static List<String> getParamsValuesWithSplit(String values) {
+	private static List<String> getParamsValuesWithSplit(String values, String keyName) {
 		List<String> list = new ArrayList<>();
 		
 		if (values != null && !"".equals(values)) {
 			String[] sa = values.split(",");
 			for (String s: sa) {
-				list.add(s.trim());
+				if (keyName != null && "Voice Service Activated".equals(keyName)) {
+					if (ConstantUtil.NEED_TO_STORE_VOICE.contains(s)) {
+						list.add(s.trim());
+					}
+				} else {
+					list.add(s.trim());
+				}
 			}
 		}
 		

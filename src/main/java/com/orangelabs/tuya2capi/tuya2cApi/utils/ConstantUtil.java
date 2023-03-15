@@ -31,4 +31,5 @@ public class ConstantUtil {
 	
 	public final static List<String> NODISPLAY_COLUMNS = Arrays.asList("Market Specifications", "Sales Area","Warranty","Packing Quantity","Packing List","Bulk Delivery", "Product on Sale Time","Package Size","Carton Size","Unsales Area");
 	
+	public final static List<String> NEED_TO_STORE_VOICE = Arrays.asList("Echo Support", "Google Home Support","Apple Siri");
 }
