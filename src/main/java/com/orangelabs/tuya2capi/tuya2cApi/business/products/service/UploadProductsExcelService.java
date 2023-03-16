@@ -167,7 +167,7 @@ public class UploadProductsExcelService {
 			String[] sa = values.split(",");
 			for (String s: sa) {
 				if (keyName != null && "Voice Service Activated".equals(keyName)) {
-					if (ConstantUtil.NEED_TO_STORE_VOICE.contains(s)) {
+					if (ConstantUtil.NEED_TO_STORE_VOICE.contains(s.trim())) {
 						list.add(s.trim());
 					}
 				} else {
