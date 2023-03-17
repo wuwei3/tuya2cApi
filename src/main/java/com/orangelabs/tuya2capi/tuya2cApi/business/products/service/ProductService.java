@@ -413,4 +413,18 @@ public class ProductService {
 		Map<String, Object> resp = getProductDetail(productId);
 		return resp;
 	}
+	
+	public List<ProductResp> getFavProducts(List<String> ids) throws Exception{
+		log.info("to get all fav Products ");
+		List<ProductResp> results = new ArrayList<>();
+		if (ids != null && ids.size() > 0) {
+			for (String id: ids) {
+				OrangeProduct op = getProductById(Long.valueOf(id));
+				ProductResp resp = getSingelProductResp(op);
+				
+				results.add(resp);
+			}
+		}
+		return results;
+	}
 }

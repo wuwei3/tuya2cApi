@@ -53,6 +53,7 @@ public class ExcelReaderUtil {
 		try {
 			buffer = new BASE64Decoder().decodeBuffer(base64);
 		} catch (Exception e) {
+			System.out.println("cuowu " + e.getMessage());
 			throw new RuntimeException("base64 exception or invalid " + e.getMessage());
 		}
 

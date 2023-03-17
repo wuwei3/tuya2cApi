@@ -1,8 +1,6 @@
 package com.orangelabs.tuya2capi.tuya2cApi.business.products.service;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +15,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.orangelabs.tuya2capi.tuya2cApi.baseresponse.ResultEnums;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.enums.ExcelFormatEnum;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.req.ParamReq;

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -22,6 +24,7 @@ import com.orangelabs.tuya2capi.tuya2cApi.business.fav.resp.UserIsFavResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.model.OrangeProduct;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.resp.ProductResp;
 import com.orangelabs.tuya2capi.tuya2cApi.business.products.service.ProductService;
+import com.orangelabs.tuya2capi.tuya2cApi.utils.ExcelExportUtil;
 
 @Service
 public class UserFavService {
@@ -159,5 +162,41 @@ public class UserFavService {
 		
 		return resp;
 	}
+	
+	public HSSFWorkbook exportFAVdataToExcel(List<String> ids, String fileName) throws Exception{
+		log.info("to export file, ids " + JSONObject.toJSONString(ids));
+		
+		HSSFWorkbook wb = null;
+		
+		List<ProductResp> resp = productService.getFavProducts(ids);
+		if (resp != null && resp.size() > 0) {
+			
+			String[] title = {"Main Image","Product Name", "Product Model Name", "Certification","Protocol","Connect Voice Platform","Product Link", "Orange Recommendation", "Orange Validation"};
+			
+			String sheetName = "sheet1";
+			
+			wb = ExcelExportUtil.getHSSFWorkbook(sheetName, title, resp, null);
+		}
+		
+		return wb;
+	}
+	
+//	public XSSFWorkbook exportFAVdataToExcel2(List<String> ids, String fileName) throws Exception{
+//		log.info("to export file, ids " + JSONObject.toJSONString(ids));
+//		
+//		XSSFWorkbook wb = null;
+//		
+//		List<ProductResp> resp = productService.getFavProducts(ids);
+//		if (resp != null && resp.size() > 0) {
+//			
+//			String[] title = {"Main Image","Product Name", "Product Model Name", "Certification","Protocol","Connect Voice Platform","Product Link", "Orange Recommendation", "Orange Validation"};
+//			
+//			String sheetName = "sheet1";
+//			
+//			wb = ExcelExportUtil.getXSSFWorkbook(sheetName, title, resp, null);
+//		}
+//		
+//		return wb;
+//	}
 
 }
