@@ -171,7 +171,7 @@ public class UserFavService {
 		List<ProductResp> resp = productService.getFavProducts(ids);
 		if (resp != null && resp.size() > 0) {
 			
-			String[] title = {"Main Image","Product Name", "Product Model Name", "Certification","Protocol","Connect Voice Platform","Product Link", "Orange Recommendation", "Orange Validation"};
+			String[] title = {"Main Image","Product Name", "Product Model Name", "Certification","Protocol","Voice Service Activated","Product Link", "Orange Recommendation", "Orange Validation"};
 			
 			String sheetName = "sheet1";
 			

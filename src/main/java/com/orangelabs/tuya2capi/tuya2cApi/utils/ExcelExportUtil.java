@@ -157,7 +157,7 @@ public class ExcelExportUtil {
                 cell.setCellStyle(styleCon);
                 
                 cell = row.createCell(5);
-                cell.setCellValue(getPramsByName(product, "Voice platform Connected"));
+                cell.setCellValue(getPramsByName(product, "Voice Service Activated"));
                 cell.setCellStyle(styleCon);
                 
                 cell = row.createCell(6);
