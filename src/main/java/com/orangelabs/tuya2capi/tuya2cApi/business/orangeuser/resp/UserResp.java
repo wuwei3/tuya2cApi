@@ -12,6 +12,10 @@ public class UserResp {
     
     private String password;
     
+    private String role;
+    
+    private String country;
+    
     private OrangUserType type;
 
 	public String get_id() {
@@ -60,5 +64,21 @@ public class UserResp {
 
 	public void setType(OrangUserType type) {
 		this.type = type;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
 	}
 }

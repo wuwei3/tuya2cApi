@@ -30,16 +30,23 @@ public class OrangeUserService {
 	private OrangeUserMapper orangeUserMapper;
 	
 	public Map<String, Object> createAdminUser(UserRequest req) throws Exception {
-		log.info("create admin user " + JSONObject.toJSONString(req));
-		OrangeUser ou = createUserEntity(req, true);
-		orangeUserMapper.insert(ou);
-		
-		log.info("create user id " + ou.getOrangeUserId());
-		
-		UserResp resp = getUserResp(ou,true);
-		
-		Map<String, Object> map = getRespMap(resp, ou.getToken(),"User admin created");
-		return map;
+		log.info("create or update by admin user " + JSONObject.toJSONString(req));
+		String id = req.getAccountId();
+		if (id !=null && !"".equals(id)) {
+			log.info("updat user id " + id);
+			return updateUser(id, req);
+		} else {
+			log.info("create new  user " );
+			OrangeUser ou = createUserEntity(req, true);
+			orangeUserMapper.insert(ou);
+			
+			log.info("create user id " + ou.getOrangeUserId());
+			
+			UserResp resp = getUserResp(ou,true);
+			
+			Map<String, Object> map = getRespMap(resp, ou.getToken(),"User admin created");
+			return map;
+		}
 	}
 	
 	public Map<String, Object> login(UserRequest req) throws Exception {
@@ -219,6 +226,8 @@ public class OrangeUserService {
 			resp.setPassword(ou.getPassword());
 		}
 		resp.setType(type);
+		resp.setRole(ou.getUserRole());
+		resp.setCountry(ou.getCountry());
 		
 		return resp;
 	}

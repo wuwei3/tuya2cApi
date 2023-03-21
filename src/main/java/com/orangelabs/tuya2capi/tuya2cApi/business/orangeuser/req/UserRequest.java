@@ -2,6 +2,8 @@ package com.orangelabs.tuya2capi.tuya2cApi.business.orangeuser.req;
 
 public class UserRequest {
 	
+	private String accountId;
+	
 	private String firstname;
 	
 	private String lastname;
@@ -13,6 +15,15 @@ public class UserRequest {
 	private String country;
 	
 	private String password;
+	
+
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
 
 	public String getFirstname() {
 		return firstname;
