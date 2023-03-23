@@ -154,6 +154,9 @@ public class OrangeUserService {
 		String role = req.getRole();
 		if (role != null && !"".equals(role)) {
 			user.setUserRole(role);
+			if (!role.equals("countryManager")) {
+				user.setCountry(null);
+			}
 		}
 		
 		user.setUpdateTime(new Date());

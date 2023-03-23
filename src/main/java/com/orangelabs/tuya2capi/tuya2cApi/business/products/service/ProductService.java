@@ -407,7 +407,15 @@ public class ProductService {
 				}
 			}
 		} else {
-			log.info(key + " and productid  " + productId + " is 0 in params!!!");
+			log.info(key + " and productid  " + productId + " is 0 in params, need to add, the key is  " +key);
+			
+			String vals = request.getParamVals();
+			if (vals != null && !"".equals(vals)) {
+				String[] sa = vals.split(",");
+				for (String val:sa) {
+					insertSingelParamEntity(Long.valueOf(productId),key, val);
+				}
+			}
 		}
 		
 		Map<String, Object> resp = getProductDetail(productId);
