@@ -132,8 +132,8 @@ public class NewsService {
 		resp.setNewsContent(contentToFront);
 		
 		if (contentToFront != null && !"".equals(contentToFront)) {
-			if (contentToFront.length() > 100) {
-				String shortDesc = contentToFront.substring(0, 100);
+			if (contentToFront.length() > 320) {
+				String shortDesc = contentToFront.substring(0, 320);
 				resp.setShortDesc(shortDesc + "...");
 			} else {
 				resp.setShortDesc(contentToFront);
