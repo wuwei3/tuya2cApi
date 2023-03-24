@@ -91,5 +91,13 @@ public class OrangeUserController {
 		Map<String, Object> map = orangeUserService.updateUser(id, request);
 		return map;
 	}
+	
+	@RequestMapping(value = "/resetpassword", method = { RequestMethod.POST})
+	@ResponseBody
+	public Map<String, Object> resetpassword(@RequestBody UserRequest request) throws Exception {
+		log.info("to reset password,,,,,,");
+		Map<String, Object> map = orangeUserService.resetPassword(request);
+		return map;
+	}
 
 }

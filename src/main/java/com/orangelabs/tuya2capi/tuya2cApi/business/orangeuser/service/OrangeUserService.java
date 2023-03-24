@@ -235,5 +235,37 @@ public class OrangeUserService {
 		return resp;
 	}
 	
+	public Map<String, Object> resetPassword(UserRequest req) throws Exception {
+		log.info("user reset password " + JSONObject.toJSONString(req));
+		String email = req.getEmail();
+		
+		if (!email.endsWith("@orange.com")) {
+			throw new BussinessException(ResultEnums.BUSSINESS_ERROR, "Only support Orange email!!");
+		}
+		
+		Map<String, Object> query = new HashMap<>();
+		query.put("email", email);
+		
+		List<OrangeUser> users = orangeUserMapper.selectByCondition(query);
+		if (users == null || users.size() == 0) {
+			throw new BussinessException(ResultEnums.BUSSINESS_ERROR, "this user not exist!!!!");
+		}else {
+			OrangeUser ou = users.get(0);
+			String password = req.getEmail();
+			
+			String encryptpwd = MD5Util.getMD5Code(password);
+			ou.setPassword(encryptpwd);
+			
+			ou.setUpdateTime(new Date());
+			
+			orangeUserMapper.updateByPrimaryKey(ou);
+			
+			Map<String, Object> map = new HashMap<>();
+			map.put("message", "Password reset, it is same with your email, we are going to login page for now.");
+			
+			return map;
+		}
+	}
+	
 
 }
