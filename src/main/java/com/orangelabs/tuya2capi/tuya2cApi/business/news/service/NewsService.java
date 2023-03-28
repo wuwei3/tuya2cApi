@@ -75,6 +75,15 @@ public class NewsService {
 		
 		entity.setUpdateTime(new Date());
 		
+		Integer status = request.getStatus();
+		if (status != null) {
+			if (status == 1) {
+				entity.setStatus(0); // archive
+			} else {
+				entity.setStatus(1); // hui fu
+			}
+		}
+		
 		return entity;
 	}
 	
@@ -82,6 +91,14 @@ public class NewsService {
 	public List<NewsListResp> getAllNewsList() throws Exception {
 		log.info("get all news list");
 		List<OrangeNewsWithBLOBs> list = orangeNewsMapper.selectAllList();
+		List<NewsListResp> resp = transferToResp(list);
+		
+		return resp;
+	}
+	
+	public List<NewsListResp> getAllNewsListOnNewsModule() throws Exception {
+		log.info("get all news list on admin en news");
+		List<OrangeNewsWithBLOBs> list = orangeNewsMapper.selectAllListNewsModule();
 		List<NewsListResp> resp = transferToResp(list);
 		
 		return resp;
@@ -148,6 +165,7 @@ public class NewsService {
 		
 		resp.setPublishTime(DateUtil.getDate(DateUtil.dateMdFranchPattern2, on.getPublishTime()));
 		resp.setNewsUpdateTime(DateUtil.getDate(DateUtil.dateMdFranchPattern2, on.getUpdateTime()));
+		resp.setStatus(on.getStatus());
 		
 		return resp;
 	}

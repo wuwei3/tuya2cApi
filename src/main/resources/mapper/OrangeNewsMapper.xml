@@ -142,14 +142,27 @@
     where news_id = #{newsId,jdbcType=BIGINT}
   </update>
   
-  <select id="selectAllList" resultMap="ResultMapWithBLOBs">
+  <select id="selectAllList"  resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from tuya_iot.orange_news
-    where status=1 order by create_time desc
+    where status = 1
+    order by create_time desc
   </select>
+  
+  <select id="selectAllListNewsModule"  resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tuya_iot.orange_news
+    where 1=1
+    order by create_time desc
+  </select>
+  
+  
   
   <select id="selectTop3List" resultMap="ResultMapWithBLOBs">
     select 

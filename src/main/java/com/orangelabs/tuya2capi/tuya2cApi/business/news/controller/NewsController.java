@@ -41,6 +41,13 @@ public class NewsController {
 		return newsService.getAllNewsList();
 	}
 	
+	@RequestMapping(value = "/getAllNewsOnNewsModule", method = { RequestMethod.GET})
+	@ResponseBody
+	public List<NewsListResp> getAllNewsOnNewsModule() throws Exception {
+		log.info("to get all list on news module");
+		return newsService.getAllNewsListOnNewsModule();
+	}
+	
 	@RequestMapping(value = "/get3News", method = { RequestMethod.GET})
 	@ResponseBody
 	public List<NewsListResp> get3News() throws Exception {
@@ -60,6 +67,13 @@ public class NewsController {
 	public NewsListResp getNewsDetail(@PathVariable Long newsId) throws Exception {
 		log.info("to delete news");
 		return newsService.getNewsDetail(newsId);
+	}
+	
+	@RequestMapping(value = "/archive", method = {RequestMethod.POST})
+	@ResponseBody
+	public void archiveNews(@RequestBody NewsEditRequest request) throws Exception {
+		log.info("to archive news");
+		newsService.createOrUpdateNews(request);
 	}
 
 }

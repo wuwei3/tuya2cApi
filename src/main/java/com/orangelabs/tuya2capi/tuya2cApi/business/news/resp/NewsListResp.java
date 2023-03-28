@@ -18,6 +18,8 @@ public class NewsListResp {
 	
 	private String newsUpdateTime;
 	
+	private Integer status;
+	
 	public Long getNewsId() {
 		return newsId;
 	}
@@ -80,5 +82,13 @@ public class NewsListResp {
 
 	public void setShortDesc(String shortDesc) {
 		this.shortDesc = shortDesc;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

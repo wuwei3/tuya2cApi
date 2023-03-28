@@ -1,6 +1,7 @@
 package com.orangelabs.tuya2capi.tuya2cApi.business.news.mapping;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -24,6 +25,8 @@ public interface OrangeNewsMapper {
     int updateByPrimaryKey(OrangeNews record);
     
     List<OrangeNewsWithBLOBs> selectAllList();
+    
+    List<OrangeNewsWithBLOBs> selectAllListNewsModule();
     
     List<OrangeNewsWithBLOBs> selectTop3List();
 }

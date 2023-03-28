@@ -9,6 +9,8 @@ public class NewsEditRequest {
 	private String newsImage;
 	
 	private String newsContent;
+	
+	private Integer status;
 
 	public Long getNewsId() {
 		return newsId;
@@ -40,5 +42,13 @@ public class NewsEditRequest {
 
 	public void setNewsContent(String newsContent) {
 		this.newsContent = newsContent;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }
