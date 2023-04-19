@@ -92,6 +92,8 @@ public class ProductService {
 		String price = req.getPrice();
 		if (price != null && !"".equals(price)) {
 			op.setProductPrice(price);
+		} else {
+			op.setProductPrice(null);
 		}
 		
 		String manu = req.getProductManufacturer();
